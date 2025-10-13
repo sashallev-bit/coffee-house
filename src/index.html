@@ -18,50 +18,36 @@
         <div class="container">
           <div class="header-menu">
             <div class="logo">
-              <img class="ellipse" src="./assets/logo.png" />
-              <!-- <div class="resource">
-                <img class="vector" src="img/vector-8.svg" />
-                <img class="img" src="img/vector-6.svg" />
-                <img class="vector-2" src="img/vector-2.svg" />
-                <img class="vector-3" src="img/vector-4.svg" />
-                <img class="vector-4" src="img/vector-5.svg" />
-                <img class="vector-5" src="img/vector-3.svg" />
-                <img class="vector-6" src="img/vector-7.svg" />
-                <img class="vector-7" src="img/vector-9.svg" />
-              </div> -->
-              <!-- <img class="coffee-house" src="img/coffee-house.png" /> -->
+              <img class="ellipse" src="./assets/logo.png" alt="logo">
             </div>
-            <div class="nav">
-              <li class="div">
-                <a href="#favorites">Favorite coffee
+            <nav class="nav">
+              <ul>
+                <li>
+                  <a href="#favorites">Favorite coffee
+                      <span class="cup-icon"></span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#about">About
+                      <span class="cup-icon"></span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#mobile-app">Mobile app
                     <span class="cup-icon"></span>
-                </a>
-              </li>
-              <li class="div">
-                <a href="#about">About
-                    <span class="cup-icon"></span>
-                </a>
-            </li>
-              <li class="div">
-                <a href="#mobile-app">Mobile app
-                    <span class="cup-icon"></span>
-                </a>
-            </li>
-              <li class="div">
-                <a href="#contacs">Contact us
-                    <span class="cup-icon"></span>
-                </a>
-            </li>
-            </div>
-            <div class="coffee-menu">
-              <!-- <div class="div">
-                <div class="link">
-                  <div class="text-wrapper">Menu</div>
-                  <img class="img-2" src="img/coffee-cup.svg" />
-                </div>
-                <img class="line-5" src="img/line-5.svg" />
-              </div> -->
-            </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#contacs">Contact us
+                      <span class="cup-icon"></span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            <a class="coffee-menu" href="menu.html" target="_blank">
+              <span>Menu</span>
+              <span class="icon"></span>
+            </a>
           </div>
         </div>
       </header>
@@ -95,7 +81,7 @@
             <div class="slider">
               <div class="row-slider">
                 <div class="slide">
-                  <img class="coffee-slider" src="./assets/slider/coffee-slider-3.svg" />
+                  <img class="coffee-slider" src="./assets/slider/coffee-slider-3.svg" alt="drink">
                   <div class="description">
                     <h3>Ice coffee</h3>
                     <p>A popular summer drink that tones and invigorates. 
@@ -108,7 +94,7 @@
                   </div>
                 </div>
                 <div class="slide">
-                  <img class="coffee-slider-2" src="./assets/slider/coffee-slider-2.svg" />
+                  <img class="coffee-slider-2" src="./assets/slider/coffee-slider-2.svg" alt="drink">
                   <div class="description">
                     <h3>Caramel Macchiato</h3>
                     <p>
@@ -122,7 +108,7 @@
                   </div>
                 </div>
                 <div class="slide">
-                  <img class="coffee-slider-3" src="./assets/slider/coffee-slider-1.svg" />
+                  <img class="coffee-slider-3" src="./assets/slider/coffee-slider-1.svg" alt="drink">
                   <div class="description">
                     <h3>S’mores Frappuccino</h3>
                     <p>
@@ -178,22 +164,22 @@
                 </p>
                 <div class="buttons">
                   <button class="apple-button">
-                      <span class="icon"></span>
-                      <div class="text">
-                        <p>Available on the</p>
-                        <p>App Store</p>
-                      </div>
+                    <span class="icon"></span>
+                    <span class="text">
+                      <span class="p">Available on the</span>
+                      <span class="p">App Store</span>
+                    </span>
                   </button>
                   <button class="android-button">
-                      <span class="icon"></span>
-                      <div class="text">
-                        <p>Available on</p>
-                        <p>Google Play</p>
-                      </div>
+                    <span class="icon"></span>
+                    <span class="text">
+                      <span class="p">Available on</span>
+                      <span class="p">Google Play</span>
+                    </span>
                   </button>
                 </div>
             </div>
-            <img class="mobile-screens" src="./assets/img/mobile-screens.svg" />
+            <img class="mobile-screens" src="./assets/img/mobile-screens.svg" alt="mobiles">
         </section>
       </main>
       <footer id="contacts">
@@ -228,6 +214,7 @@
                 <a class='phone' href="tel:+1(603)555-0123">
                   <span class="icon"></span>
                   <span>+1 (603) 555-0123</span>
+                </a>
               </li>
               <li class="link-item">
                 <a class="clock" href="">

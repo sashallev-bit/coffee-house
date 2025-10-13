@@ -37,7 +37,6 @@ $gap: 40px
     color: $accent-color
     font-style: $accent-font-style
 
-
 @mixin font-mobile-h1($font-style, $color, $accent-color, $accent-font-style)
   font-family: font.$mobile-heading-heading-1-font-family
   font-weight: font.$mobile-heading-heading-1-font-weight
@@ -49,7 +48,6 @@ $gap: 40px
   .text-accent
     color: $accent-color
     font-style: $accent-font-style
-
 
 @mixin font-desktop-h2($font-style, $color, $accent-color, $accent-font-style)
   font-family: font.$desktop-heading-heading-2-font-family
@@ -164,8 +162,6 @@ $gap: 40px
 html
   scroll-behavior: smooth;
 
-
-
 body
   margin: 0
   height: 100%
@@ -178,7 +174,7 @@ body
   max-width: 1440px
   width: 100%
   padding: 20px 0 40px 0
-  gap: 100px
+  gap: 20px
   margin: 0 auto
   header, main, footer
     width: 100%
@@ -191,8 +187,6 @@ body
     gap: 100px
     section
       width: 100%
-    
-
 
 button:focus-visible
   outline: 2px solid #4a90e2 
@@ -206,22 +200,48 @@ li
 .header-menu
   display: flex
   flex-direction: row
+  height: 60px
+  text-align: center
+  align-items: center
 
 .nav
   flex: 1
   display: flex
   gap: $gap
-  justify-content: center
+  align-items: center
+  text-align: center
+  flex-wrap: nowrap
   list-style: none
+  li
+    flex-wrap: nowrap
+    width: fit-content
   a 
     @include font-action(font.$textdark)
     width: fit-content
     .cup-icon
       display: none
 
+.coffee-menu
+  display: flex
+  flex-direction: row
+  width: fit-content
+  height: fit-content
+  gap:8px
+  background: font.$backgroundbody
+  span
+    &:nth-child(1)      
+      @include font-action($color: font.$textdark)
+  .icon
+    display: block
+    border-radius: 0
+    margin: 0
+    color: font.$backgroundbody
+    @include span-icon($size: 20px, $backgroung-color: font.$textdark, $mask-url: ('../assets/icon/ic_coffee-cup.svg'))
+
 #enjoy
   .enjoy-container
     position: relative
+    border-radius: 0
   .offer
     display: flex
     flex-direction: column
@@ -265,7 +285,6 @@ li
     z-index: 0
     @include respond-to('mobile')
       height: 552px
-    
 
 #favourites-coffee
   display: flex
@@ -343,10 +362,6 @@ li
         .price-wrapper
           @include font-desktop-h3($color: font.$textdark)
         
-      
-
-
-
 #about
   display: flex
   flex-direction: column
@@ -485,7 +500,7 @@ li
           display: inline-flex
           flex-direction: column
          
-          & > p
+          & > .p
             display: inline-block
             white-space: nowrap
             text-align: start
@@ -510,6 +525,7 @@ li
   display: inline-flex
   flex-direction: row
   width: 100%
+  margin-top: calc( 100px - 20px )  
   padding: 100px
   gap: 100px
   flex-wrap: wrap
@@ -609,6 +625,4 @@ li
     &.clock
       .icon
         mask-image: url('../assets/icon/ic_clock.svg')
-
-  
-      
+     
