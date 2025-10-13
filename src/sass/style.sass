@@ -2,9 +2,9 @@
 @use 'styleFont' as font
 
 $breakpoints: (
-  'mobile': (min-width: 380px),
-  'tablet': (min-width: 768px),
-  'desktop': (min-width: 1440px),
+  'mobile': (max-width: 380px),
+  'tablet': (max-width: 768px),
+  'desktop': (max-width: 1440px),
 );
 
 $gap: 40px
@@ -23,13 +23,7 @@ $gap: 40px
       @content;
     
   @else
-    @error 'Не указано значение для `#{$breakpoint}`. Пожалуйста, убедитесь, что точка останова объявлена в карте `$breakpoints`.';
-
-
-
-  
-
-
+    @error 'Не указано значение для `#{$breakpoint}`.'
 
 @mixin font-desktop-h1($font-style, $color)
   font-family: font.$desktop-heading-heading-1-font-family
@@ -54,15 +48,14 @@ $gap: 40px
 @mixin font-desktop-h2($font-style, $color, $accent-color, $accent-font-style)
   font-family: font.$desktop-heading-heading-2-font-family
   font-weight: font.$desktop-heading-heading-2-font-weight
-  font-size: font.$desktop-heading-heading-1-font-size
-  letter-spacing: font.$desktop-heading-heading-1-letter-spacing
-  line-height: font.$desktop-heading-heading-1-line-height
+  font-size: font.$desktop-heading-heading-2-font-size
+  letter-spacing: font.$desktop-heading-heading-2-letter-spacing
+  line-height: font.$desktop-heading-heading-2-line-height
   font-style: $font-style
   color: $color
   .text-accent
     color: $accent-color
     font-style: $accent-font-style
-
 
 @mixin font-mobile-h2($font-style, $color, $accent-color, $accent-font-style)
   font-family: font.$mobile-heading-heading-2-font-family
@@ -84,8 +77,6 @@ $gap: 40px
   line-height: font.$desktop-heading-heading-3-line-height
   font-style: $font-style
   color: $color
-
-
 
 @mixin font-action($color)
   font-family: font.$desktop-action-link-button-font-family
@@ -332,26 +323,36 @@ li
   display: flex
   flex-direction: column
   gap: $gap
-  padding: 0 $gap
+  padding: 0
   h2
+    width: 101%
     @include font-desktop-h2(font.$desktop-heading-heading-2-accent-font-style, font.$textdark,
     font.$textaccent, font.$desktop-heading-heading-2-accent-font-style)
 
     @include respond-to('mobile')
       @include font-mobile-h2(font.$mobile-heading-heading-2-accent-font-style, font.$textdark,
       font.$textaccent, font.$desktop-heading-heading-2-accent-font-style)
+    
+    margin: 0
+    & > *
+      margin: 0
 
   .images
     display: flex
     flex-direction: row
+    flex-wrap: wrap
     gap: $gap
     width: 100%
+
     .column
-      width: 50%
+      width: calc( 50% - 20px )
+      min-width: calc( 671px / 2 - 20px)
       display: flex
       flex-direction: column
       gap: $gap
       border-radius: 0
+      @include respond-to('tablet')
+        width: 100%      
       &:nth-child(1) > .about-img
           &:nth-child(1)
             width: 100%
@@ -362,6 +363,7 @@ li
             background-size: cover
             background-position: center        
           &:nth-child(2)
+            display: block
             width: 100%
             aspect-ratio: 66 / 43
             border-radius: 20px
@@ -369,15 +371,27 @@ li
             background-repeat: no-repeat
             background-size: cover
             background-position: center
+            transition: opacity 0.3s easy
+            opacity: 1
+            @include respond-to('tablet')
+              display: none
+              opacity: 0  
       &:nth-child(2) > .about-img
         &:nth-child(1)
+          display: block
           width: 100%
           border-radius: 20px
           aspect-ratio: 66 / 43
           background-image: url('../assets/img/about-3.svg')
           background-repeat: no-repeat;
           background-size: cover; 
-          background-position: center;          
+          background-position: center;
+          transition: opacity 0.3s easy
+          opacity: 1
+          @include respond-to('tablet')
+            display: none
+            opacity: 0          
+                  
         &:nth-child(2)
           width: 100%
           aspect-ratio: 1 / 1
@@ -394,22 +408,25 @@ li
 #mobile-apps
   display: flex
   flex-direction: row
+  flex-wrap: wrap
+  align-items: center
+  gap: 100px
   .offer
     display: flex
     flex-direction: column
-    width: 50%
-    height: fit-content;
-    align-self: start start
+    width: calc(50% - 50px)
+    min-width: 530px
+    height: fit-content
     justify-content: start
     align-content: flex-start
     gap: $gap
     h2
       @include font-desktop-h2(font.$desktop-heading-heading-2-font-style, font.$textdark,
-      font.$textaccent, font.$desktop-heading-heading-2-accent-font-style)
+      font.$textaccent, font.$desktop-heading-heading-2-font-style)
 
       @include respond-to('mobile')
         @include font-mobile-h2(font.$mobile-heading-heading-2-font-style, font.$textdark,
-        font.$textaccent, font.$desktop-heading-heading-2-accent-font-style)
+        font.$textaccent, font.$desktop-heading-heading-2-font-style)
       
       margin: 0 auto 0 0
       
@@ -461,8 +478,9 @@ li
   .mobile-screens
     display: block
     flex-wrap: wrap
-    width: 50%
+    width: calc(50% - 50px)
     aspect-ratio: 1 / 1
+    border-radius: 0
 
 .footer-container
   display: inline-flex
@@ -470,21 +488,34 @@ li
   width: 100%
   padding: 100px
   gap: 100px
+  flex-wrap: wrap
   background-color: font.$backgroundcontainer
+  border-radius: $gap
+  @include respond-to('tablet' )
+  padding: 100px 60px
+  
   .footer-box
     display: flex
     flex-direction: column
-    width: 50%
+    width: calc( 50% - 50px )
+    min-width: 530px
     gap: $gap
     justify-content: start
+    align-content: statr
+    margin: 0
+    @include respond-to('tablet')
+      width: 100%
+
   h2 
     margin: 0
-    @include font-desktop-h2(font.$desktop-heading-heading-2-font-style, font.$textlight,
+    width: 100%
+    border-radius: 0
+    @include font-desktop-h2(font.$desktop-heading-heading-2-accent-font-style, font.$textlight,
       font.$textaccent, font.$desktop-heading-heading-2-accent-font-style)
 
     @include respond-to('mobile')
       @include font-mobile-h2(font.$mobile-heading-heading-2-font-style, font.$textlight,
-      font.$textaccent, font.$desktop-heading-heading-2-accent-font-style)
+      font.$textaccent, font.$mobile-heading-heading-2-accent-font-style)
   h3 
     display: inline-block
     margin: 0
