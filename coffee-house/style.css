@@ -86,7 +86,7 @@ header {
   height: 60px;
   text-align: center;
   align-items: center;
-  transition: transformX 0.5s easy;
+  transition: transformX 0.5s ease;
 }
 @media (max-width: 768px) {
   .header-menu {
@@ -100,7 +100,7 @@ header {
   display: none;
   flex-direction: column;
   opacity: 0;
-  transition: opacity 0.3s easy;
+  transition: opacity 0.3s ease;
   width: 44px;
   height: 44px;
   margin: 0;
@@ -118,7 +118,7 @@ header {
   height: 1px;
   width: 16px;
   background-color: rgb(102, 95, 85);
-  transition: transform 0.5s easy;
+  transition: transform 0.5s ease;
 }
 .burger-button.active span:nth-child(1) {
   transform: rotate(45deg) translate(1.5px, 0.5px);
@@ -135,11 +135,11 @@ header {
 
 aside {
   display: none;
+  opacity: 0;
   position: absolute;
   top: 84px;
   width: 100%;
-  transform: translateX(100%);
-  transition: translate 0.3s easy;
+  transition: transform 0.7s ease;
   z-index: 3;
   gap: 100px;
   padding: 60px 16px;
@@ -289,6 +289,22 @@ nav {
   width: 100%;
 }
 
+.home-page {
+  display: none;
+}
+
+.menu-page {
+  display: none;
+}
+
+.menu-page.active {
+  display: block;
+}
+
+.home-page.active {
+  display: block;
+}
+
 #enjoy .enjoy-container {
   position: relative;
   border-radius: 0;
@@ -366,7 +382,7 @@ nav {
   padding: 20px 78px;
   column-gap: 8px;
   align-items: center;
-  transition: all 0.5s easy;
+  transition: all 0.5s ease;
   background-color: rgb(225, 212, 201);
   font-family: "Inter", Helvetica;
   font-weight: 600;
@@ -390,7 +406,7 @@ nav {
   mask-image: url("../assets/icon/ic_coffee-cup.svg");
   background-color: rgb(64, 63, 61);
   opacity: 0;
-  transition: opacity 0.5s easy;
+  transition: opacity 0.5s ease;
 }
 #enjoy .offer button {
   display: inline-block;
@@ -616,7 +632,7 @@ nav {
   background-size: 110%;
   background-repeat: no-repeat;
   background-position: center;
-  transition: background-size 0.5s easy;
+  transition: background-size 0.5s ease;
 }
 #about .images .column .about-img:hover {
   background-size: 100%;
@@ -633,7 +649,7 @@ nav {
   aspect-ratio: 66/43;
   border-radius: 20px;
   background-image: url("../assets/img/about-2.svg");
-  transition: opacity 0.3s easy;
+  transition: opacity 0.3s ease;
   opacity: 1;
 }
 @media (max-width: 768px) {
@@ -648,7 +664,7 @@ nav {
   border-radius: 20px;
   aspect-ratio: 66/43;
   background-image: url("../assets/img/about-3.svg");
-  transition: opacity 0.3s easy;
+  transition: opacity 0.3s ease;
   opacity: 1;
 }
 @media (max-width: 768px) {
@@ -675,7 +691,7 @@ nav {
   height: 100%;
   width: 40px;
   background-color: rgb(193, 182, 173);
-  transition: background-color 0.5s easy;
+  transition: background-color 0.5s ease;
 }
 .controls .control:hover {
   background-color: rgb(102, 95, 85);
@@ -1084,7 +1100,7 @@ nav {
   background-size: 110%;
   background-position: center;
   overflow: hidden;
-  transition: background-size 0.5s easy;
+  transition: background-size 0.5s ease;
 }
 .menu-list li .image:hover {
   background-size: 100%;
