@@ -10,11 +10,11 @@ function slider(slider1='') {
   cloneLast = slideItem[slideCount-1].cloneNode(true),
   
   arrows = slider2.querySelectorAll('.arrow-button'), 
-  controls = slider2.querySelector('.controls')
+  controls = slider2.querySelector('.controls'),
   controlWidth = controls.querySelectorAll('.control')[0].offsetWidth;
 
-  items.appendChild(cloneFirst);
-  items.insertBefore(cloneLast, firstSlide);
+  slides.appendChild(cloneFirst);
+  slides.insertBefore(cloneLast, slideItem[0]);
 
   arrows.forEach((arrow, index) => {
     arrow.addEventListener('click', (event) => {

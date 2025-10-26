@@ -1,5 +1,5 @@
 
-class Product {
+export class Product {
     constructor(name = '', description = '', price = 0, category = '', imag = '', sizes = [], additives = []) {
         this.name = name;
         this.description = description;
@@ -10,4 +10,3 @@ class Product {
         this.additives = additives;        
     }
 }
-export default Product;

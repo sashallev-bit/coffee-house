@@ -716,8 +716,8 @@ nav {
 .controls .control {
   height: 100%;
   width: 40px;
-  background-color: rgb(193, 182, 173);
-  transition: background-color 0.5s ease;
+  background: linear-gradient(to right, rgb(102, 95, 85), rgb(102, 95, 85) 1%, rgb(193, 182, 173) 1%, rgb(193, 182, 173) 100%);
+  transition: background 0.5s ease;
 }
 .controls .control:hover {
   background-color: rgb(102, 95, 85);
@@ -1148,7 +1148,7 @@ nav {
   flex-wrap: wrap;
   gap: 40px;
 }
-.menu-list li {
+.menu-list_item {
   min-width: 312px;
   border: 1px solid rgb(193, 182, 173);
   border-radius: 40px;
@@ -1156,7 +1156,7 @@ nav {
   height: 506px;
   width: calc(25% - 30px);
 }
-.menu-list li .image {
+.menu-list_item .image {
   width: 100%;
   aspect-ratio: 1/1;
   border-radius: 40px;
@@ -1167,10 +1167,10 @@ nav {
   overflow: hidden;
   transition: background-size 0.5s ease;
 }
-.menu-list li .image:hover {
+.menu-list_item .image:hover {
   background-size: 100%;
 }
-.menu-list li .description {
+.menu-list_item .description {
   padding: 19px;
   display: flex;
   flex-direction: column;
@@ -1179,7 +1179,7 @@ nav {
   gap: 12px;
   border-radius: 0;
 }
-.menu-list li .description h3 {
+.menu-list_item .description h3 {
   text-align: start;
   margin: 0;
   font-family: "Inter", Helvetica;
@@ -1190,7 +1190,7 @@ nav {
   font-style: normal;
   color: rgb(64, 63, 61);
 }
-.menu-list li .description p {
+.menu-list_item .description p {
   text-align: start;
   margin: 0;
   border-radius: 0;
@@ -1202,7 +1202,7 @@ nav {
   font-style: normal;
   color: rgb(64, 63, 61);
 }
-.menu-list li .description .price-wrapper {
+.menu-list_item .description .price-wrapper {
   flex: 1;
   margin: 0;
   text-align: start;
@@ -1216,6 +1216,8 @@ nav {
   font-style: normal;
   color: rgb(64, 63, 61);
 }
+
+.menu-list_
 
 .modal {
   display: none;
