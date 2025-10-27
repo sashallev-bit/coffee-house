@@ -888,7 +888,7 @@ nav
   flex-direction: row
   flex-wrap: wrap
   gap: $gap
-  li
+  .menu-list_item
     min-width: 312px
     border: 1px solid font.$borderlight
     border-radius: 40px
@@ -931,8 +931,23 @@ nav
         align-content: end        
         border-radius: 0
         @include font-desktop-h3($color: font.$textdark)
-
+  .menu-list_progress
+    display: none;
+    width: 100%;
+    align-items: center;
+    text-align: center
+    opacity: 0;   
+    .progress-menu-list
+      width: 60px;
+      aspect-ratio: 1 / 1;
+      border: 1px solid font.$borderdark;
+      background-color: font.$backgroundbody;
+      .icon
+        display: block;
+        @include span-icon(24px, font.$textdark, url('../assets/icon/ic_refresh.svg'));      
+    &.active
+      opacity: 1;
+      transition: opacity 0.3s ease;
+      display: block;
 .modal
   display: none      
-
-        

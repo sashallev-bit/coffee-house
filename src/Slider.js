@@ -28,7 +28,33 @@ function slider(slider1='') {
 
   });
 
+  function bindEvents() {
+    leftButton.addEventListener('click', () => leftShifting());
+    rightButton.addEventListener('click', () => rightShifting());
+    root.addEventListener('mouseenter', () => stopAuto());
+    root.addEventListener('mouseleave', () => startAuto());
+  }
 
+  function rightShifting() {
+    goTo(this.currentIndex + 1);
+  }
+
+  function leftShifting() {
+    goTo(this.currentIndex - 1);
+  }
+
+  function goTo(index) {
+    const total = this.slides.length;
+    currentIndex = (index + total) % total;
+    updatePosition();
+  }
+
+  function updatePosition() {
+    const offset = -currentIndex * 100;
+    slides.style.transform = `translateX(${offset}%)`;
+    slides.forEach((s, i) => s.classList.toggle('active', i === this.currentIndex));
+    controls.forEach((d, i) => d.classList.toggle('active', i === this.currentIndex));
+  }
 
 
 }

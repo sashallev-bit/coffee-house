@@ -2,17 +2,22 @@ import data from '../assets/products.json'
 import Product from '../Product';
 import ProductAdditive from '../ProductAdditive';
 import ProductSize from '../ProductSize';
+import { ProductResponse } from './ProductsResponse';
 
 export class MenuRepository {
   
-    async getProducts(){
+    async getProducts(category, perPagePosition, perPageColumn){
 
       const data = await fetch('./assets/products.json')
       const json = await data.json();
-      console.log(json);
-      let prod = json.map((element) => this.dtoToProduct(element));
-      
-      return prod;
+      let prodList = json.map((element) => this.dtoToProduct(element)).filter((product) => product.category == category);
+      let finishFlag;
+      const finishPosition = perPageColumn === Infinity ? prodList.length : perPagePosition + perPageColumn;
+      const startPosition = perPagePosition;
+      if((perPagePosition + perPageColumn) >= prodList.length - 1) {
+        finishFlag = true;
+      };
+      return new ProductResponse(prodList.slice(startPosition, finishPosition), finishFlag);
     }
 
 
@@ -24,7 +29,6 @@ export class MenuRepository {
         };
 
         const additives = dto.additives.map((element, i) => this.dtoToAdditive(element));
-        console.log(dto);
 
         return new Product(
             dto.name,

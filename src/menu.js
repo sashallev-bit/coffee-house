@@ -1,3 +1,4 @@
+const { MenuRepository } = require("./data/Repo");
 const { headerBind, asideBind } = require("./HeaderNavigation");
 
 
@@ -7,49 +8,74 @@ const repo = new MenuRepository();
 const menuRadio = document.querySelectorAll('input[name="menu"]');
 const menuListProgress = document.querySelector('.menu-list_progress');
 
+
+let categoryProductMenu = document.querySelector('input[name="menu"]:checked').value;
+const list = document.querySelector('.menu-list');
+let perPageColumnMenu = Infinity;
+let perPagePositionMenu = 0;
+let finishFlag = false;
+
+
+menuRadio.forEach(radio => {
+  radio.addEventListener('change', async (event) => {
+    categoryProductMenu = event.target.value;
+    console.log(categoryProductMenu);
+    await renderMenu();
+  })
+})
+
 window.addEventListener ('resize', () => {
-  if(window.ofsetWidth <= 768) {
+  if(window.innerWidth <= 768) {
     
-    menuListProgress.toggle('active', true);
+    menuListProgress.classList.toggle('active', !finishFlag);
+    perPageColumnMenu = 4;
   } 
 
-  if(window.ofsetWidth > 768) {
-
+  if(window.innerWidth > 768) {
+    menuListProgress.classList.toggle('active', false);
+    perPageColumnMenu = Infinity;
+    if(!finishFlag) addPerPageCards(perPageColumnMenu);
   }
 
 })
 
-let couter = 0;
+document.querySelector('.progress-menu-list').addEventListener('click', () => {
+  addPerPageCards(perPageColumnMenu);
+});
 
-document.querySelector('.load-prod-button').addEventListener('click', () => {
-  couter += 1;
-  repo.getProducts.
-} )
-
-async function renderMenu(category = '') {
+async function renderMenu() {
   
-  const list = document.querySelector('.menu-list');
-  list.innerHTML = '';
-  let categ =  category;
-  if(!category) {
-    categ = menuPage.querySelector('input[name="menu"]:checked').value;
-  }
-
-  let perPageColumn = Infinity;
-
-  if (document.ofsetWidth <= 768) {
-    perPageColumn = 4;
-  }
-  
-  repo.getProducts().then(node => {
-    console.log('node', node);
-    node.filter((prod) => prod.category == categ).forEach(async (element) => {
-        const cart = await renderCart(element);
-        let listItem = document.createElement('li');
-        listItem.appendChild(cart);
-        list.appendChild(listItem);
-    })
+  list.querySelectorAll('.menu-list_item').forEach(element => {
+    element.remove();    
   });
+
+  perPagePositionMenu = 0;
+
+  if (window.innerWidth <= 768) {
+    perPageColumnMenu = 4;
+  }
+
+  await addPerPageCards(perPageColumnMenu);
+}
+
+async function addPerPageCards(perPageColumn) {
+    
+  const node = await repo.getProducts(categoryProductMenu, perPagePositionMenu, perPageColumn)
+  const cards = await Promise.all(node.data.map(renderCart));
+  let fragment = document.createDocumentFragment();
+  cards.forEach(element => {
+    console.log('in cards');
+    let listItem = document.createElement('li');
+    listItem.classList.add('menu-list_item');
+    listItem.appendChild(element);
+    fragment.appendChild(listItem);
+  });
+
+  perPagePositionMenu += perPageColumnMenu;
+  list.insertBefore(fragment, menuListProgress);
+  console.log('in add',list);
+  finishFlag = Boolean(node.finishFlag);
+  menuListProgress.classList.toggle('active', !finishFlag);
 }
 
 async function renderCart(product) {
@@ -107,6 +133,11 @@ async function setBackground(imageProduct, imageUrl) {
   }
 }
 
+async function render() {
+  await renderMenu();
+}
+
+render();
 
 headerBind();
 asideBind();
