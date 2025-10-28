@@ -1,62 +1,136 @@
-const slider2 = document.querySelector('#favorites-coffee');
+
 const timeInterval = 6000;
-function slider(slider1='') {
-  let slides = slider2.querySelector('.row-slider'),
+let shiftRepeate = null;
+let progressRepeate = null;
+let currentTime = 0;
+let currentGradientPersent = 0;
+let currentIndex = 0;
+const slideTimeOut = timeInterval;
+let timeout;
+
+export function slider(root) {
+  let slides = root.querySelector('.row-slider'),
   slideItem = slides.querySelectorAll('.slide'),
-  currentIndex =0,
+
   slideCount = slideItem.length,
-  slideWidth = slideItem[0].offsetWidth,
-  cloneFirst = slideItem[0].cloneNode(true),
+  firstSlide = slideItem[0],
+  slideWidth = firstSlide.offsetWidth,
+  cloneFirst = firstSlide.cloneNode(true),
   cloneLast = slideItem[slideCount-1].cloneNode(true),
-  
-  arrows = slider2.querySelectorAll('.arrow-button'), 
-  controls = slider2.querySelector('.controls')
-  controlWidth = controls.querySelectorAll('.control')[0].offsetWidth;
+  arrows = root.querySelectorAll('.arrow-button'), 
+  leftButton = arrows[0],
+  rightButton = arrows[arrows.length - 1],
+  controls = root.querySelector('.controls');
 
-  items.appendChild(cloneFirst);
-  items.insertBefore(cloneLast, firstSlide);
-
-  arrows.forEach((arrow, index) => {
-    arrow.addEventListener('click', (event) => {
-        console.log('arrow', event.target, index);
-        if (index === 0) {
-            currentIndex = currentIndex > 0 ? currentIndex - 1 : slideCount - 1;
-       } else {
-        currentIndex = currentIndex < slideCount - 1 ? currentIndex + 1 : 0;
-       }  
-    });
-
-  });
+  slides.appendChild(cloneFirst);
+  slides.insertBefore(cloneLast, firstSlide);
+  slides.style.width = '500%'
+  slides.style.transform = `translateX(${-slideWidth}px)`;
 
   function bindEvents() {
     leftButton.addEventListener('click', () => leftShifting());
     rightButton.addEventListener('click', () => rightShifting());
     root.addEventListener('mouseenter', () => stopAuto());
     root.addEventListener('mouseleave', () => startAuto());
+    slides.addEventListener('transitionend', () => checkCurrienIndex());
+    window.addEventListener('resize', () => debounce(ll, 200));
+  }  
+
+  function debounce (func, delay) {
+    clearTimeout(timeout);
+    slideWidth = firstSlide.offsetWidth;
+    timeout = setTimeout(func, delay);
   }
 
+  const ll = () => { 
+    timeout = null; 
+    slides.style.transform = `translateX(${-((currentIndex + 1) * slideWidth)}px)`;
+  }
+
+  function startAuto() {
+    if(progressRepeate) window.clearInterval(progressRepeate);
+    checkCurrienIndex();
+    if(progressRepeate) window.clearInterval(progressRepeate);
+    shiftRepeate = setIntervalImmediate(() => {
+      rightShifting();
+    }, slideTimeOut - currentTime, slideTimeOut); 
+  }
+
+  function setIntervalImmediate(fn, timeout, interval) {
+    setTimeout(fn, timeout)
+    return setInterval(fn, interval);
+  } 
+  
   function rightShifting() {
-    goTo(this.currentIndex + 1);
+    goTo(currentIndex + 1);
   }
 
   function leftShifting() {
-    goTo(this.currentIndex - 1);
+    goTo(currentIndex - 1);
   }
 
   function goTo(index) {
-    const total = this.slides.length;
-    currentIndex = (index + total) % total;
+    currentIndex = index;
     updatePosition();
   }
 
   function updatePosition() {
-    const offset = -currentIndex * 100;
-    slides.style.transform = `translateX(${offset}%)`;
-    slides.forEach((s, i) => s.classList.toggle('active', i === this.currentIndex));
-    controls.forEach((d, i) => d.classList.toggle('active', i === this.currentIndex));
+
+    slides.classList.add('shifting');
+    const offset = -(currentIndex + 1) * slideWidth;
+    if(progressRepeate !== null) {
+      window.clearInterval(progressRepeate);
+      currentTime = 0;
+      currentGradientPersent = 0;
+    }
+    slides.style.transform = `translateX(${offset}px)`;
   }
 
+  function checkCurrienIndex(){
 
+    slides.classList.remove('shifting');
+    
+    while (currentIndex < 0 || currentIndex > slideItem.length - 1) {
+      currentIndex = (currentIndex + slideItem.length) % slideItem.length;
+    }
+
+    slides.style.transform = `translateX(${-((currentIndex + 1) * slideWidth)}px)`; 
+
+    controls.querySelectorAll('.control').forEach((d, i) => {
+      if(i === currentIndex) {
+        controlProgress(d);
+      } else {
+        d.style.background = 'rgb(193, 182, 173)';
+      }
+    });
+  }
+
+  bindEvents();
+  startAuto();
 }
 
-export default slider;
+export function stopAuto() {
+  if(shiftRepeate) window.clearInterval(shiftRepeate);
+  shiftRepeate = null;
+  if(progressRepeate) window.clearInterval(progressRepeate);
+  progressRepeate = null;
+}
+
+function controlProgress(control) {
+  const gradientInterval = slideTimeOut / 100;
+  progressRepeate = window.setInterval (() => {
+    updateGradient(gradientInterval, control, progressRepeate)
+  }, gradientInterval);
+} 
+
+function updateGradient(gradientInterval, control, repeate) {
+  currentTime += gradientInterval; 
+  let gradientPersent = currentTime / slideTimeOut * 100;
+  currentGradientPersent = gradientPersent;
+  control.style.background = `linear-gradient(to right, rgb(102, 95, 85) 0%, rgb(102, 95, 85) ${gradientPersent}%, rgb(193, 182, 173) ${gradientPersent}%, rgb(193, 182, 173) 100%)`;
+  if(currentTime > slideTimeOut ) {
+    window.clearInterval(repeate);
+    currentTime = 0;
+    currentGradientPersent = 0;
+  }
+}

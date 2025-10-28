@@ -1,3 +1,4 @@
+import { stopAuto } from "./Slider";
 
 export function headerBind() {
 
@@ -26,14 +27,11 @@ const toggleMenu = () => {
 
 document.querySelectorAll('.coffee-menu').forEach( button => {
   button.addEventListener('click', (event) => {
-    homePage.classList.toggle("active", false);
-    menuPage.classList.toggle("active", true);
-    navigate('/menu', true)
+    stopAuto()
+  //  navigate('/menu', true)
   });
 });
 
 document.querySelector('.logo').addEventListener('click', (event) => {
-  homePage.classList.toggle("active", true);
-  menuPage.classList.toggle("active", false);
-  navigate('/', true)
+  //navigate('/', true)
 });

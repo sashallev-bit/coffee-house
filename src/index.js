@@ -1,8 +1,8 @@
 import { asideBind, headerBind } from './HeaderNavigation';
 import './sass/style.sass';
-import slider from './Slider.js';
+import { slider } from './Slider';
 
-const slider3 = document.querySelector('#favorites-coffee')
+const favoritesSlider = document.querySelector('#favorites-coffee')
 
 
 window.addEventListener("hashchange", () => {
@@ -10,7 +10,11 @@ window.addEventListener("hashchange", () => {
 //  navigate(location.hash.replace("#", "") || "/", false);
 });
 
-//slider();
+document.querySelector('.coffee-menu_button').onclick = () => {
+  window.location = '/menu.html';
+};
+
+slider(favoritesSlider);
 
 headerBind();
 asideBind();

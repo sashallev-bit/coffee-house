@@ -15,12 +15,21 @@
 
 html {
   scroll-behavior: smooth;
+  position: relative;
+}
+html.no-scroll {
+  scroll-behavior: auto;
 }
 
 body {
+  position: static;
   margin: 0;
   height: 100%;
   background-color: rgb(225, 212, 201);
+}
+body.no-scroll {
+  position: fixed;
+  overflow: hidden;
 }
 
 .d-home {
@@ -387,7 +396,7 @@ nav {
   font-style: normal;
   color: rgb(225, 212, 201);
 }
-#enjoy .offer button {
+#enjoy .offer .coffee-menu_button {
   display: inline-flex;
   cursor: pointer;
   flex-direction: row;
@@ -395,11 +404,11 @@ nav {
   height: 64px;
   min-width: 200px;
   radius: 100px;
-  padding: 20px 78px;
+  padding: 20px 64px;
   column-gap: 8px;
-  align-content: end;
+  align-content: center;
   justify-content: center;
-  transition: all 0.5s ease;
+  transition: all 0.5s ease-out;
   background-color: rgb(225, 212, 201);
   font-family: "Inter", Helvetica;
   font-weight: 600;
@@ -409,15 +418,15 @@ nav {
   font-style: normal;
   color: rgb(64, 63, 61);
 }
-#enjoy .offer button:hover {
-  align-content: end;
+#enjoy .offer .coffee-menu_button:hover {
+  width: 200px;
 }
-#enjoy .offer button:hover .icon {
+#enjoy .offer .coffee-menu_button:hover .cup-icon {
   display: inline-block;
   opacity: 1;
 }
-#enjoy .offer button:hover .cup-icon {
-  display: inline-block;
+#enjoy .offer .coffee-menu_button .cup-icon {
+  display: none;
   width: 20px;
   height: 20px;
   mask-repeat: no-repeat;
@@ -428,10 +437,8 @@ nav {
   opacity: 1;
   transition: opacity 0.5s ease;
 }
-#enjoy .offer button {
-  display: inline-block;
+#enjoy .offer .coffee-menu_button {
   margin: 0;
-  width: fit-content;
   border: none;
 }
 #enjoy .video-background {
@@ -545,6 +552,9 @@ nav {
   left: 0;
   z-index: -1;
 }
+.slider .row-slider.shifting {
+  transition: transform 0.5s ease-out;
+}
 .slider .row-slider .slide {
   flex: 1;
   display: flex;
@@ -554,12 +564,14 @@ nav {
 }
 .slider .row-slider .slide img {
   display: block;
+  width: 100%;
   max-width: 480px;
   aspect-ratio: 1/1;
 }
 .slider .row-slider .slide .description {
   display: flex;
   flex-direction: column;
+  width: 100%;
   max-width: 480px;
   gap: 16px;
 }
@@ -716,7 +728,7 @@ nav {
 .controls .control {
   height: 100%;
   width: 40px;
-  background: linear-gradient(to right, rgb(102, 95, 85), rgb(102, 95, 85) 1%, rgb(193, 182, 173) 1%, rgb(193, 182, 173) 100%);
+  background: linear-gradient(to right, rgb(102, 95, 85) 0%, rgb(102, 95, 85) 1%, rgb(193, 182, 173) 1%, rgb(193, 182, 173) 100%);
   transition: background 0.5s ease;
 }
 .controls .control:hover {
@@ -1097,6 +1109,7 @@ nav {
   position: relative;
   background-color: rgb(225, 212, 201);
   border: 1px solid rgb(193, 182, 173);
+  transition: background 0.5s ease-out;
 }
 .radio-container .menu-radio-label span {
   text-align: center;
@@ -1119,13 +1132,14 @@ nav {
   width: 30px;
   background-color: rgb(193, 182, 173);
   align-content: center;
+  transition: background 0.3s ease-out;
 }
 .radio-container .menu-radio-label input {
   width: 29px;
   height: 29px;
   color: transparent;
 }
-.radio-container .menu-radio-label input:checked + span {
+.radio-container .menu-radio-label input:checked ~ span {
   font-family: "Inter", Helvetica;
   font-weight: 600;
   font-size: 16px;
@@ -1138,8 +1152,9 @@ nav {
   background: rgb(225, 212, 201);
 }
 .radio-container .menu-radio-label:has(input:checked) {
-  background-color: rgba(64, 63, 61, 0.8);
+  background-color: rgb(102, 95, 85);
   border-color: transparent;
+  color: transparent;
 }
 
 .menu-list {
@@ -1247,6 +1262,295 @@ nav {
 
 .modal {
   display: none;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 5;
+  align-content: center;
+  text-align: start;
+}
+.modal .modal_overlay {
+  height: 100%;
+  border-radius: 0;
+  background-color: rgba(182, 174, 167, 0.4);
+}
+.modal .full-card {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: start;
+  transform: translate(-50%, -50%);
+  background-color: rgb(225, 212, 201);
+  color: rgb(64, 63, 61);
+  width: 800px;
+  padding: 16px;
+  border-radius: 40px;
+  max-width: calc(100% - 80px);
+  opacity: 0;
+  transition: opacity 0.7s ease-out;
+}
+.modal .image {
+  display: inline-block;
+  height: 310px;
+  aspect-ratio: 1/1;
+  border-radius: 40px;
+  background-repeat: no-repeat;
+  background-size: 110%;
+  background-position: center;
+  opacity: 1;
+}
+.modal .description {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-left: 20px;
+  justify-content: start;
+  overflow: hidden;
+  border-radius: 0;
+  font-family: "Inter", Helvetica;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 0px;
+  line-height: 150%;
+  font-style: normal;
+  color: rgb(64, 63, 61);
+}
+.modal .description h3 {
+  font-family: "Inter", Helvetica;
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: 0px;
+  line-height: 125%;
+  font-style: normal;
+  color: rgb(64, 63, 61);
+  border-radius: 0;
+  margin: 0;
+}
+.modal .inputs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0;
+}
+.modal .inputs-container p {
+  margin: 0;
+}
+.modal .inputs-container ul {
+  margin: 0;
+}
+.modal .cart-radio-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  border-radius: 0;
+}
+.modal .cart-radio-container .radio-item {
+  margin: 0;
+}
+.modal .cart-radio-container .cart-radio-label {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin: 0;
+  padding: 8px;
+  width: fit-content;
+  position: relative;
+  background-color: rgb(225, 212, 201);
+  border: 1px solid rgb(193, 182, 173);
+  transition: background 0.5s ease-out;
+}
+.modal .cart-radio-container .cart-radio-label span {
+  text-align: center;
+  align-content: center;
+  font-family: "Inter", Helvetica;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0px;
+  line-height: 150%;
+  font-style: normal;
+  color: rgb(64, 63, 61);
+}
+.modal .cart-radio-container .cart-radio-label .custom-radio {
+  position: absolute;
+  display: block;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 30px;
+  width: 30px;
+  background-color: rgb(193, 182, 173);
+  align-content: center;
+  text-transform: uppercase;
+}
+.modal .cart-radio-container .cart-radio-label input {
+  width: 29px;
+  height: 29px;
+  color: transparent;
+}
+.modal .cart-radio-container .cart-radio-label input:checked ~ .text-label {
+  font-family: "Inter", Helvetica;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0px;
+  line-height: 150%;
+  font-style: normal;
+  color: rgb(225, 212, 201);
+}
+.modal .cart-radio-container .cart-radio-label input:checked ~ .custom-radio {
+  background: rgb(225, 212, 201);
+}
+.modal .cart-radio-container .cart-radio-label:has(input:checked) {
+  background-color: rgb(102, 95, 85);
+}
+.modal .cart-checkbox-container {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.modal .cart-checkbox-container .checkbox-item {
+  margin: 0;
+}
+.modal .cart-checkbox-container .cart-checkbox-label {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin: 0;
+  padding: 8px;
+  width: fit-content;
+  position: relative;
+  background-color: rgb(225, 212, 201);
+  border: 1px solid rgb(193, 182, 173);
+  transition: background 0.5s ease-out;
+}
+.modal .cart-checkbox-container .cart-checkbox-label span {
+  text-align: center;
+  align-content: center;
+  font-family: "Inter", Helvetica;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0px;
+  line-height: 150%;
+  font-style: normal;
+  color: rgb(64, 63, 61);
+}
+.modal .cart-checkbox-container .cart-checkbox-label .custom-checkbox {
+  position: absolute;
+  display: block;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 30px;
+  width: 30px;
+  background-color: rgb(193, 182, 173);
+  align-content: center;
+  transition: all 0.3s ease;
+}
+.modal .cart-checkbox-container .cart-checkbox-label input {
+  width: 29px;
+  height: 29px;
+  color: transparent;
+  opacity: 0;
+}
+.modal .cart-checkbox-container .cart-checkbox-label input:checked ~ .text-label {
+  font-family: "Inter", Helvetica;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0px;
+  line-height: 150%;
+  font-style: normal;
+  color: rgb(225, 212, 201);
+}
+.modal .cart-checkbox-container .cart-checkbox-label input:checked ~ .custom-checkbox {
+  background: rgb(225, 212, 201);
+}
+.modal .cart-checkbox-container .cart-checkbox-label:has(input:checked) {
+  background-color: rgb(102, 95, 85);
+}
+.modal .info-text {
+  flex: 1;
+  font-family: "Inter", Helvetica;
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0px;
+  line-height: 140%;
+  font-style: normal;
+  color: rgb(64, 63, 61);
+}
+.modal .info-icon {
+  display: block;
+  border-radius: 0;
+  width: 16px;
+  height: 16px;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 16px;
+  mask-image: url("../assets/icon/ic_info-empty.svg");
+  background-color: rgb(64, 63, 61);
+}
+.modal .info-container {
+  padding: 12px 0;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  gap: 8px;
+  border-top: 1px solid rgb(193, 182, 173);
+  border-radius: 0;
+}
+.modal .cart-form-button {
+  width: 100%;
+  display: inline-flex;
+  cursor: pointer;
+  flex-direction: row;
+  gap: 8px;
+  padding: 10px 78px;
+  align-content: center;
+  justify-content: center;
+  transition: background 0.5s ease;
+  background-color: rgb(225, 212, 201);
+  border: 1px solid rgb(102, 95, 85);
+  min-width: 200px;
+  font-family: "Inter", Helvetica;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0px;
+  line-height: 150%;
+  font-style: normal;
+  color: rgb(64, 63, 61);
+}
+.modal .cart-form-button:hover {
+  background-color: rgb(102, 95, 85);
+  color: rgb(225, 212, 201);
+  border: none;
+}
+.modal .price-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+.modal .price-wrapper p {
+  flex: 1;
+  flex-wrap: nowrap;
+  margin: 0;
+}
+.modal .price-wrapper span {
+  width: fit-content;
+  margin: 0;
+}
+.modal.active {
+  display: block;
+}
+.modal.active .full-card {
+  opacity: 1;
 }
 
 /*# sourceMappingURL=style.css.map */

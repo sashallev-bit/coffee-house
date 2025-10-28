@@ -7,6 +7,10 @@ const repo = new MenuRepository();
 
 const menuRadio = document.querySelectorAll('input[name="menu"]');
 const menuListProgress = document.querySelector('.menu-list_progress');
+const modal = document.querySelector('.modal');
+const overlay = modal.querySelector('.modal_overlay');
+const body = document.querySelector('body');
+const html = document.querySelector('html');
 
 
 let categoryProductMenu = document.querySelector('input[name="menu"]:checked').value;
@@ -14,14 +18,24 @@ const list = document.querySelector('.menu-list');
 let perPageColumnMenu = Infinity;
 let perPagePositionMenu = 0;
 let finishFlag = false;
+let currentProduct = null;
+let sizeformProductAdd = null;
+let additiveFormProductAdd = null;
+let scrollPosition = null;
+
+
 
 
 menuRadio.forEach(radio => {
   radio.addEventListener('change', async (event) => {
     categoryProductMenu = event.target.value;
-    console.log(categoryProductMenu);
     await renderMenu();
   })
+})
+
+overlay.addEventListener('click', (event) => {
+  modal.classList.toggle('active');
+  toggleScreenScroll(true);
 })
 
 window.addEventListener ('resize', () => {
@@ -64,10 +78,11 @@ async function addPerPageCards(perPageColumn) {
   const cards = await Promise.all(node.data.map(renderCart));
   let fragment = document.createDocumentFragment();
   cards.forEach(element => {
-    console.log('in cards');
     let listItem = document.createElement('li');
     listItem.classList.add('menu-list_item');
     listItem.appendChild(element);
+    listItem.addEventListener('click', (event) => openCartForm(listItem));
+
     fragment.appendChild(listItem);
   });
 
@@ -76,6 +91,172 @@ async function addPerPageCards(perPageColumn) {
   console.log('in add',list);
   finishFlag = Boolean(node.finishFlag);
   menuListProgress.classList.toggle('active', !finishFlag);
+}
+
+async function openCartForm(element) {
+  const cartForm = document.querySelector('.full-card');
+  const cart = await renderFullCart(element);
+  cartForm.innerHTML = '';  
+  cartForm.appendChild(cart);
+  modal.classList.toggle('active', true);
+  toggleScreenScroll(false);
+}
+
+function toggleScreenScroll(flag) {
+ 
+  flag ? activeScroll() : anactiveScroll();
+  
+  function anactiveScroll() {
+    scrollPosition = window.scrollY;
+    body.style.top = `-${scrollY}px` 
+    body.classList.toggle('no-scroll');
+    html.classList.toggle('no-scroll');   
+  }
+
+  function activeScroll() {
+    body.classList.toggle('no-scroll');
+    body.removeAttribute('style');
+    window.scrollTo({
+      top: scrollPosition,
+      behavior: "auto",
+    })
+    html.classList.toggle('no-scroll');
+  }
+}
+
+
+
+async function renderFullCart(element) {
+  const nameProduct = element.querySelector('h3').textContent;
+  const product = await repo.getProduct(nameProduct);
+  let fragment = document.createDocumentFragment();
+  currentProduct = product;
+  const baseData = await renderCart(product);
+  fragment.appendChild(baseData);
+  const sizes = renderSizes(product);
+  const additives = renderAdditives(product);
+  const priceWrapper = fragment.querySelector('.price-wrapper');
+ 
+  console.log(priceWrapper);
+  let inputsContainerSizes = document.createElement('div');
+  inputsContainerSizes.classList.add('inputs-container')
+  let inputsContainerAdditives = document.createElement('div');
+  inputsContainerAdditives.classList.add('inputs-container')
+  let totalp = document.createElement('p');
+  let info = document.createElement('div');
+  let infoIcon = document.createElement('span');
+  let infoText = document.createElement('p');
+  infoText.classList.add('info-text');
+  infoIcon.classList.add('info-icon');
+  info.classList.add('info-container');
+  infoText.textContent = "The cost is not final. " +
+    'Download our mobile app to see the final price and place your order. ' +
+    'Earn loyalty points and enjoy your favorite coffee with up to 20% discount.'
+  info.appendChild(infoIcon);
+  info.appendChild(infoText);
+  let button = document.createElement('button');
+  button.classList.add('cart-form-button');
+  button.textContent = 'Close';
+  button.addEventListener('click', (event) => {
+    modal.classList.toggle('active', false);
+    toggleScreenScroll(true)
+  });
+
+  totalp.textContent = 'Total:'
+  inputsContainerSizes.appendChild(sizes);
+  inputsContainerAdditives.appendChild(additives);
+  priceWrapper.before(inputsContainerSizes);
+  priceWrapper.before(inputsContainerAdditives);
+  priceWrapper.insertBefore(totalp, priceWrapper.querySelector('span'));
+  priceWrapper.after(info);
+  info.after(button);
+
+  return fragment;
+}
+
+function renderSizes(product) {
+  const fragment = document.createDocumentFragment();
+  let namePath, radioContainer;
+  namePath = document.createElement('p');
+  namePath.textContent = 'Size';
+  radioContainer = document.createElement('ul');
+  radioContainer.classList.add('cart-radio-container');
+  product.sizes.forEach((size, i) => {
+    console.log('in inp')
+    let label, radioInput, customRadioSpan, textLabel, radioItem;
+    radioItem = document.createElement('li');
+    radioItem.classList.add('radio-item');
+    label = document.createElement('label');
+    label.classList.add('cart-radio-label');
+    textLabel = document.createElement('span');
+    textLabel.classList.add('text-label');
+    radioInput = document.createElement('input');
+    customRadioSpan = document.createElement('span');
+    customRadioSpan.classList.add('custom-radio')
+    radioInput.type = 'radio';
+    radioInput.value = size.addPrice;
+    if(i == 0) radioInput.checked = true;
+    radioInput.name = 'size';
+    customRadioSpan.textContent = size.name;
+    textLabel.textContent = size.size;
+    label.appendChild(radioInput);
+    label.appendChild(customRadioSpan);
+    label.appendChild(textLabel);
+    radioItem.appendChild(label);    
+    radioContainer.appendChild(radioItem);
+    radioInput.addEventListener('change', (event) => {
+      sizeformProductAdd = Number(event.target.value);
+      restPrise();
+    })
+  });
+  fragment.appendChild(namePath);
+  fragment.appendChild(radioContainer);
+  return fragment;
+}
+
+function renderAdditives(product) {
+  const fragment = document.createDocumentFragment();
+  let namePath, checkboxContainer;
+  namePath = document.createElement('p');
+  namePath.textContent = 'Additives';
+  checkboxContainer = document.createElement('ul');
+  checkboxContainer.classList.add('cart-checkbox-container');
+  product.additives.forEach((additive, i) => {
+    console.log('in inp')
+    let label, checkboxInput, customCheckboxSpan, textLabel, checkboxItem;
+    checkboxItem = document.createElement('li');
+    checkboxItem.classList.add('checkbox-item');
+    label = document.createElement('label');
+    label.classList.add('cart-checkbox-label');
+    textLabel = document.createElement('span');
+    textLabel.classList.add('text-label');
+    checkboxInput = document.createElement('input');
+    customCheckboxSpan = document.createElement('span');
+    customCheckboxSpan.classList.add('custom-checkbox')
+    checkboxInput.type = 'checkbox';
+    checkboxInput.value = additive.addPrice;
+    checkboxInput.name = 'additive';
+    customCheckboxSpan.textContent = i + 1;
+    checkboxItem.appendChild(label);
+    label.appendChild(checkboxInput);
+    label.appendChild(customCheckboxSpan);
+    textLabel.textContent = additive.name;
+    label.appendChild(textLabel);
+    checkboxContainer.appendChild(checkboxItem);
+    checkboxInput.addEventListener('change', (event) => {
+      if(event.target.checked) {
+        additiveFormProductAdd = additiveFormProductAdd === null ? Number(event.target.value) : additiveFormProductAdd + Number(event.target.value);
+      } else {
+        additiveFormProductAdd = additiveFormProductAdd - Number(event.target.value) == 0 ? null : additiveFormProductAdd - Number(event.target.value);
+      }
+      console.log('ev chec',event.target.value, event.target.checked);
+      restPrise();
+    })
+  });
+  fragment.appendChild(namePath);
+  fragment.appendChild(checkboxContainer);
+  
+  return fragment;
 }
 
 async function renderCart(product) {
@@ -131,6 +312,14 @@ async function setBackground(imageProduct, imageUrl) {
   } catch (error) {
      console.log('set err', imageUrl, imageProduct);
   }
+}
+
+function restPrise() {
+  let price = Number(currentProduct.price);
+  price += sizeformProductAdd;
+  if(additiveFormProductAdd) price += additiveFormProductAdd;
+  const priceSpan = modal.querySelector('.price');
+  priceSpan.textContent = price.toFixed(2);
 }
 
 async function render() {
