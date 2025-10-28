@@ -545,6 +545,9 @@ nav {
   left: 0;
   z-index: -1;
 }
+.slider .row-slider.shifting {
+  transition: transform 0.5s ease-out;
+}
 .slider .row-slider .slide {
   flex: 1;
   display: flex;
@@ -554,12 +557,14 @@ nav {
 }
 .slider .row-slider .slide img {
   display: block;
+  width: 100%;
   max-width: 480px;
   aspect-ratio: 1/1;
 }
 .slider .row-slider .slide .description {
   display: flex;
   flex-direction: column;
+  width: 100%;
   max-width: 480px;
   gap: 16px;
 }
@@ -716,7 +721,7 @@ nav {
 .controls .control {
   height: 100%;
   width: 40px;
-  background: linear-gradient(to right, rgb(102, 95, 85), rgb(102, 95, 85) 1%, rgb(193, 182, 173) 1%, rgb(193, 182, 173) 100%);
+  background: linear-gradient(to right, rgb(102, 95, 85) 0%, rgb(102, 95, 85) 1%, rgb(193, 182, 173) 1%, rgb(193, 182, 173) 100%);
   transition: background 0.5s ease;
 }
 .controls .control:hover {
