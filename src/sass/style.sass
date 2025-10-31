@@ -1,3 +1,5 @@
+@use 'sass:map'
+@use "sass:meta"
 @use 'card'
 @use 'styleFont' as font
 
@@ -10,13 +12,13 @@ $breakpoints: (
 $gap: 40px
 
 @mixin respond-to($breakpoint)
-  $raw-query: map-get($breakpoints, $breakpoint);
+  $raw-query: map.get($breakpoints, $breakpoint);
 
   @if $raw-query 
     $query: if(
-      type-of($raw-query) == 'string',
+      meta.type-of($raw-query) == 'string',
       unquote($raw-query),
-      inspect($raw-query)
+      meta.inspect($raw-query)
     );
 
     @media #{$query}
@@ -675,7 +677,7 @@ nav
     .buttons
       display: inline-flex
       flex-direction: row
-      gap: $gap / 2
+      gap: calc($gap / 2)
       margin: 0
       button
         display: flex
