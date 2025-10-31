@@ -15,9 +15,9 @@
   <body>
     <div class="d-home">
       <header class="header">
-        <div class="logo">
+        <a class="logo" href="javascript:void(0);">
           <img class="ellipse" src="./assets/logo.png" alt="logo">
-        </div>
+        </a>
         <div class="header-menu">
           <nav class="nav">
             <ul class="nav-list">
@@ -43,8 +43,7 @@
               </li>
             </ul>
           </nav>
-          <a class="coffee-menu" href="./order.html">
-          <!-- javascript:void(0);"> -->
+          <a class="coffee-menu" href="menu.html">
             <span>Menu</span>
             <span class="icon"></span>
           </a>
@@ -91,7 +90,8 @@
               </h1>
               <p>With its inviting atmosphere and delicious coffee options, the Coffee House Resource is a popular destination 
                 for coffee lovers and those seeking a warm and inviting space to enjoy their favorite beverage.</p>
-              <button class="coffee-menu">Menu
+              <button class="coffee-menu_button">
+                <span>Menu</span>
                 <span class="cup-icon"></span>
               </button>
             </div>
@@ -212,38 +212,6 @@
             <img class="mobile-screens" src="./assets/img/mobile-screens.svg" alt="mobiles">
         </section>
       </div>
-      <div class="menu-page">
-        <section id="offer">
-        <h2>Behind each of our cups hides an <span class="text-accent">amazing surprise</span></h2>
-        <div class="radio-container">
-            <label class="menu-radio-label">
-            <input type="radio" name="menu" value="coffee" checked>
-            <span class="custom-radio">
-                <img src="./assets/ic_cup.png" alt="cup">
-            </span>               
-            <span>Coffee</span>
-            </label>
-            <label class="menu-radio-label">
-            <input type="radio" name="menu" value="tea">
-            <span class="custom-radio">
-                <img src="./assets/ic_teapot.png" alt="teapot">
-            </span>                
-            <span>Tea</span>
-            </label>
-            <label class="menu-radio-label">
-            <input type="radio" name="menu" value="dessert">
-            <span class="custom-radio">
-                <img src="./assets/ic_dessert.png" alt="dessert">
-            </span>
-            <span>Dessert</span>
-            </label>
-        </div>
-        </section>
-        <section id="menu">
-        <ul class="menu-list">
-        </ul>
-        </section>
-      </div>
       </main>
       <footer id="contacts">
         <div class="footer-container">
@@ -290,64 +258,5 @@
         </div>
       </footer>
     </div>
-    <div class="modal" id="modal">
-      <div class="modal_overlay"></div>
-      <div class="full-card">
-        <div class="preview">
-          <div class="image"></div>
-          <div class="description">
-            <h3 class="title">Irish coffee</h3>
-            <p>Fragrant black coffee with Jameson Irish whiskey and whipped milk
-            </p>
-            </div>
-            <div class="size-radio-group">Size
-              <label>
-                <input type="radio" name="size" value="s">
-                <span class="input-control">S</span>
-                <span class="input-label">100 ml</span>
-              </label>
-              <label>
-                <input type="radio" name="size" value="m">
-                <span class="input-control"></span>
-                <span class="input-label"></span>
-              </label>
-              <label>
-                <input type="radio" name="size" value="l">
-                <span class="input-control"></span>
-                <span class="input-label"></span>
-              </label>
-            </div>
-            <div class="additives-checkbox-group">Additives
-              <label>
-                <input type="checkbox" name="additives" value="1">
-                <span class="input-control"></span>
-                <span class="input-label"></span>
-              </label>
-              <label>
-                <input type="checkbox" name="additives" value="2">
-                <span class="input-control"></span>
-                <span class="input-label"></span>
-              </label>
-              <label>
-                <input type="checkbox" name="additives" value="3">
-                <span class="input-control"></span>
-                <span class="input-label"></span>
-              </label>
-            </div>            
-             <div class="price-wrapper">
-                <span>$</span>
-                <span class="price">4.50</span>
-              </div>
-            <div>
-              <div ></div>
-              <p>The cost is not final. 
-              Download our mobile app to see the final price and place your order. 
-              Earn loyalty points and enjoy your favorite coffee with up to 20% discount.
-              </p>
-            </div>
-            <button>Close</button>
-        </div>
-      </div>  
-    </div>  
   </body>
 </html>

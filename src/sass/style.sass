@@ -132,36 +132,56 @@ $gap: 40px
 @mixin button-primary($color, $icon-display, $background, $icon-opacity)
   display: inline-flex
   cursor: pointer
+  width: 200px
   flex-direction: row
   gap: 8px
   height: 64px
   min-width: 200px
   radius: 100px
-  padding: 20px 78px
+  padding: 20px 64px
   column-gap: 8px
-  align-content: end
+  align-content: center
   justify-content: center
-  transition: all 0.5s ease
+  transition: all 0.5s ease-out
   background-color: $background
   @include font-action($color: $color)
   &:hover
-    align-content: end
-
-    .icon
-      display: inline-block
-      opacity: 1
-      
     .cup-icon
       display: $icon-display
-      width: 20px
-      height: 20px
-      mask-repeat: no-repeat;
-      mask-position: top;
-      mask-size: 20px;
-      mask-image: url('../assets/icon/ic_coffee-cup.svg');
-      background-color: $color;
-      opacity: $icon-opacity;
-      transition: opacity 0.5s ease
+      opacity: $icon-opacity
+  .cup-icon
+    display: none
+    width: 20px
+    height: 20px
+    mask-repeat: no-repeat;
+    mask-position: top;
+    mask-size: 20px;
+    mask-image: url('../assets/icon/ic_coffee-cup.svg');
+    background-color: $color
+    opacity: 1
+    transition: opacity 0.5s ease
+
+
+@mixin button-secondary($color, $background, $color-hover, $background-hover, $border-color)
+  display: inline-flex
+  cursor: pointer
+  flex-direction: row
+  gap: 8px
+  padding: 10px 78px
+  align-content: center
+  justify-content: center
+  transition: background 0.5s ease
+  background-color: $background
+  border: 1px solid $border-color
+  min-width: 200px
+  @include font-action($color: $color)
+  &:hover
+    background-color: $background-hover
+    color: $color-hover
+    border: none
+
+
+
 
 @mixin link-hover($color)
   position: relative
@@ -187,12 +207,19 @@ $gap: 40px
   border-radius: 100px
 
 html
-  scroll-behavior: smooth;
+  scroll-behavior: smooth
+  position: relative
+  &.no-scroll
+    scroll-behavior: auto
 
 body
+  position: static
   margin: 0
   height: 100%
   background-color: font.$backgroundbody
+  &.no-scroll
+    position: fixed
+    overflow: hidden
 
 .d-home
   display: flex
@@ -286,8 +313,6 @@ header
   @include respond-to('tablet')
     display: inline-flex
     opacity: 1
-
-
 
 aside
   display: none
@@ -412,9 +437,7 @@ nav
     @include respond-to('mobile')
       left: 16px
       min-width: 316px
-      width: calc(100% - 32px)
-    
-    
+      width: calc(100% - 32px)   
       
     h1 
       @include font-desktop-h1(font.$desktop-heading-heading-1-font-style, font.$textlight, 
@@ -427,11 +450,9 @@ nav
     p 
       @include font-body(font.$textlight)
     
-    button
+    .coffee-menu_button
       @include button-primary(font.$textdark, inline-block, font.$backgroundbody, 1)
-      display: inline-block
       margin: 0
-      width: fit-content
       border: none
      
   .video-background
@@ -505,6 +526,8 @@ nav
     position: absolute
     left: 0
     z-index: -1
+    &.shifting
+      transition: transform 0.5s ease-out;
     .slide
       flex: 1
       display: flex
@@ -513,11 +536,13 @@ nav
       align-content: center
       img 
         display: block
+        width: 100%
         max-width: 480px 
         aspect-ratio: 1 / 1
       .description
         display: flex
         flex-direction: column
+        width: 100%
         max-width: 480px
         gap: 16px
         h3
@@ -616,12 +641,10 @@ nav
   .control
     height: 100%
     width: $gap
-    background: linear-gradient(to right, font.$borderdark, font.$borderdark 1% ,font.$borderlight 1%, font.$borderlight 100%);
+    background: linear-gradient(to right, font.$borderdark 0%, font.$borderdark 1% ,font.$borderlight 1%, font.$borderlight 100%);
     transition: background 0.5s ease
     &:hover
       background-color: font.$borderdark
-      
-
 
 #mobile-apps
   display: flex
@@ -791,9 +814,7 @@ nav
         background-color: font.$backgroundbody
         a .icon
           background-color: font.$textdark
-      
-
-
+ 
 .contacts
   display: flex
   flex-direction: column
@@ -825,8 +846,6 @@ nav
     @include link-hover($color: font.$textlight)
     
       
-
-
 #offer
   display: flex
   flex-direction: column
@@ -856,7 +875,7 @@ nav
     position: relative
     background-color: font.$backgroundbody
     border: 1px solid font.$borderlight
-    
+    transition: background 0.5s ease-out
     span
       text-align: center
       align-content: center
@@ -871,26 +890,27 @@ nav
       width: 30px
       background-color: font.$borderlight
       align-content: center
+      transition: background 0.3s ease-out
     input
       width: 29px
       height: 29px
       color: transparent
-      &:checked 
-      
-        & + span
+      &:checked       
+        & ~ span
           @include font-action($color: font.$textlight)
         & ~ .custom-radio
           background: font.$backgroundbody
     &:has(input:checked)
-      background-color: font.$backgroundbackdrop
+      background-color: font.$backgroundcontainer
       border-color: transparent
+      color: transparent
 
 .menu-list
   display: flex
   flex-direction: row
   flex-wrap: wrap
   gap: $gap
-  li
+  .menu-list_item
     min-width: 312px
     border: 1px solid font.$borderlight
     border-radius: 40px
@@ -933,8 +953,216 @@ nav
         align-content: end        
         border-radius: 0
         @include font-desktop-h3($color: font.$textdark)
+  .menu-list_progress
+    display: none;
+    width: 100%;
+    align-items: center;
+    text-align: center
+    opacity: 0;   
+    .progress-menu-list
+      width: 60px;
+      aspect-ratio: 1 / 1;
+      border: 1px solid font.$borderdark;
+      background-color: font.$backgroundbody;
+      .icon
+        display: block;
+        @include span-icon(24px, font.$textdark, url('../assets/icon/ic_refresh.svg'));      
+    &.active
+      opacity: 1;
+      transition: opacity 0.3s ease;
+      display: block;
 
 .modal
-  display: none      
-
+  display: none
+  width: 100vw
+  height: 100vh
+  top: 0
+  left: 0
+  position: fixed
+  z-index: 5
+  align-content: center
+  text-align: start
+  .modal_overlay
+    height: 100%
+    border-radius: 0
+    background-color: rgba(182, 174, 167, 0.4)
+  .full-card
+    display: flex
+    flex-direction: row
+    position: absolute
+    top: 50%;
+    left: 50%;
+    text-align: start;
+    transform: translate(-50%, -50%);
+    background-color: font.$backgroundbody
+    color: font.$textdark
+    width: 800px
+    padding: 16px
+    border-radius: $gap 
+    max-width: calc(100% - 80px)
+    opacity: 0
+    transition: opacity 0.7s ease-out
+  .image
+    display: inline-block
+    height: 310px
+    aspect-ratio: 1 / 1
+    border-radius: 40px
+    background-repeat: no-repeat
+    background-size: 110%
+    background-position: center
+    opacity: 1
+  .description
+    display: flex
+    flex-direction: column
+    gap: 20px
+    padding-left: 20px
+    justify-content: start
+    overflow: hidden
+    border-radius: 0
+    @include font-body($color: font.$textdark)    
+    h3
+      @include font-desktop-h3($color: font.$textdark)
+      border-radius: 0
+      margin: 0
+  .inputs-container
+    display: flex
+    flex-direction: column
+    gap: 8px
+    flex-wrap: wrap
+    margin: 0
+    p 
+      margin: 0
+    ul
+      margin: 0  
+  .cart-radio-container
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    gap: 8px
+    padding: 0
+    border-radius: 0
+    .radio-item
+      margin: 0
+    .cart-radio-label
+      display: flex
+      flex-direction: row
+      gap: 8px
+      margin: 0
+      padding: 8px
+      width: fit-content
+      position: relative
+      background-color: font.$backgroundbody
+      border: 1px solid font.$borderlight
+      transition: background 0.5s ease-out
+      span
+        text-align: center
+        align-content: center
+        @include font-action($color: font.$textdark)
+      .custom-radio
+        position: absolute
+        display: block
+        left: 8px;
+        top: 50%
+        transform: translateY(-50%)
+        height: 30px
+        width: 30px
+        background-color: font.$borderlight
+        align-content: center
+        text-transform: uppercase
+      input
+        width: 29px
+        height: 29px
+        color: transparent
+        &:checked      
+          & ~ .text-label
+            @include font-action($color: font.$textlight)
+          & ~ .custom-radio
+            background: font.$backgroundbody
+      &:has(input:checked)
+        background-color: font.$backgroundcontainer
         
+  .cart-checkbox-container
+    display: flex
+    flex-direction: row
+    gap: 8px
+    padding: 0
+    flex-wrap: wrap
+    .checkbox-item
+      margin: 0         
+    .cart-checkbox-label
+      display: flex
+      flex-direction: row
+      gap: 8px
+      margin: 0
+      padding: 8px
+      width: fit-content
+      position: relative
+      background-color: font.$backgroundbody
+      border: 1px solid font.$borderlight
+      transition: background 0.5s ease-out
+      span
+        text-align: center
+        align-content: center
+        @include font-action($color: font.$textdark)
+      .custom-checkbox
+        position: absolute
+        display: block
+        left: 8px;
+        top: 50%
+        transform: translateY(-50%)
+        height: 30px
+        width: 30px
+        background-color: font.$borderlight
+        align-content: center
+        transition: all 0.3s ease
+      input
+        width: 29px
+        height: 29px
+        color: transparent
+        opacity: 0          
+        &:checked      
+          & ~ .text-label
+            @include font-action($color: font.$textlight)
+          & ~ .custom-checkbox
+            background: font.$backgroundbody
+      &:has(input:checked)
+        background-color: font.$backgroundcontainer
+  .info-text 
+    flex: 1
+    @include font-body-caption($color: font.$textdark)
+  .info-icon
+    display: block
+    border-radius: 0
+    @include span-icon($size: 16px, $backgroung-color: font.$textdark, $mask-url: url('../assets/icon/ic_info-empty.svg'))
+  .info-container
+    padding: 12px 0
+    display: flex
+    flex-wrap: nowrap
+    flex-direction: row
+    gap: 8px
+    border-top: 1px solid font.$borderlight
+    border-radius: 0
+        
+  .cart-form-button
+    width: 100%
+    @include button-secondary(font.$textdark, font.$backgroundbody, font.$textlight , font.$backgroundcontainer, font.$borderdark)
+   
+  .price-wrapper
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    width: 100%
+    p
+      flex: 1
+      flex-wrap: nowrap
+      margin: 0
+    span
+      width: fit-content
+      margin: 0
+
+      
+  &.active
+    display: block
+    .full-card
+      opacity: 1
+

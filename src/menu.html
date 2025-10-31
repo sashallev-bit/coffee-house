@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,11 +12,49 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" 
      media="print" onload="this.onload=null;this.media='all'">
-</head>
-<body>
-  <div class="d-home">
-    <header class="header" data-html-partial="header"></header>
-    <aside>
+  </head>
+  <body>
+    <div class="d-home">
+      <header class="header">
+        <a class="logo" href="index.html">
+          <img class="ellipse" src="./assets/logo.png" alt="logo">
+        </a>
+        <div class="header-menu">
+          <nav class="nav">
+            <ul class="nav-list">
+              <li>
+                <a href="#favorites-coffee">Favorite coffee
+                    <span class="cup-icon"></span>
+                </a>
+              </li>
+              <li>
+                <a href="#about">About
+                    <span class="cup-icon"></span>
+                </a>
+              </li>
+              <li>
+                <a href="#mobile-apps">Mobile app
+                  <span class="cup-icon"></span>
+                </a>
+              </li>
+              <li>
+                <a href="#contacts">Contact us
+                    <span class="cup-icon"></span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <a class="coffee-menu" href="javascript:void(0);">
+            <span>Menu</span>
+            <span class="icon"></span>
+          </a>
+        </div>
+        <button class="burger-button">
+          <span></span>
+          <span></span>
+        </button>
+      </header>
+      <aside>
         <nav class="nav">
           <ul class="nav-list">
             <li>
@@ -40,9 +79,8 @@
             </li>
           </ul>
         </nav>        
-    </aside>
-    <main>
-      <div class="menu-page">
+      </aside>
+      <main>
         <section id="offer">
         <h2>Behind each of our cups hides an <span class="text-accent">amazing surprise</span></h2>
         <div class="radio-container">
@@ -71,11 +109,15 @@
         </section>
         <section id="menu">
         <ul class="menu-list">
+          <li class="menu-list_progress">
+            <button class="progress-menu-list">
+              <span class="icon"></span>
+            </button>
+          </li> 
         </ul>
         </section>
-      </div>
       </main>
-          <footer id="contacts">
+      <footer id="contacts">
         <div class="footer-container">
           <div class="footer-box">
             <h2>
@@ -119,8 +161,8 @@
           </div>
         </div>
       </footer>
-  </div>
-  <div class="modal" id="modal">
+    </div>
+    <div class="modal" id="modal">
       <div class="modal_overlay"></div>
       <div class="full-card">
         <div class="preview">
@@ -178,6 +220,6 @@
             <button>Close</button>
         </div>
       </div>  
-  </div>  
+    </div>  
   </body>
 </html>

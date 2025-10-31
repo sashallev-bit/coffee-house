@@ -1,8 +1,8 @@
 
 
 class ProductAdditive {
-    constructor(size = '', addPrice = 0.00
-) { this.size = size;
+    constructor(name = '', addPrice = 0.00
+) { this.name = name;
     this.addPrice = addPrice;        
     }
 }
